@@ -63,12 +63,24 @@ On se focalise sur la représentation des données (en C/C++) et la manipulation
    ```  
    Cette fonction permet d’afficher les valeurs d’une matrice 64×64 dans la console.  
    - Comment une matrice est-elle représentée en mémoire ?  
+   > Dans ce code, une matrice de R lignes et C colonnes est représentée en mémoire comme un tableau à une seule dimension de taille R * C.
    - Comment accède-t-on à l’élément (l, m) d’une matrice ?  
+   > On utilise la formule suivante : im[l * C + m] (im un pointeur vers le debut du tableau)
    - Dans le rapport, illustrez par un exemple.
 2. Dans `irm_mlp_test.cpp`, en vous inspirant de la boucle `while`, ajoutez dans le `main` une boucle qui affiche les indices de toutes les images mal classées.
+> Lignes 112 a 121.
 3. Dans le rapport, montrez les lignes de code permettant de faire une prédiction avec le réseau de neurones et d’en déduire la classe à partir d’un encodage one-hot et de la sortie du réseau.
+> Lignes 129 a 134:
+   ```cpp
+   while(ind_im != -1) {
+      IRM2D::PrintImage(inputTest[ind_im], 64, 64);
+      mlp.ForwardPropagateNetwork(inputTest[ind_im]);
+      int Predicted = mlp.GetLayerNetwork()[mlp.GetnHiddenLayer()].GetMaxOutputIndex();    // récuperation de la valeur prédite par le réseau
+      cout << " predicted : " << IRM2D::convert_label(Predicted) << "  -  "; //affichage prédiction et nom du fichier
+   ```
 4. Modifiez `irm_mlp_test.cpp` pour enregistrer les images mal classées à l’aide de la fonction `SaveImage` (voir `libread/IRM2D.h` et `libread/IRM2D.cpp`).  
    - Cette fonction sera appelée par `irm2D.SaveImage(...)` dans le `main`.
+> Decommentez les lignes 120 et 121 pour activer la fonctionalite
 
 ### 2.5 Deuxième développement : entraînement, sauvegarde et ressources
 
@@ -86,6 +98,7 @@ On s’intéresse maintenant à l’apprentissage du réseau par descente de gra
 4. Allégez la fonction `main` en créant une fonction `ACCURACYandLOSS` qui renverra les valeurs d’accuracy et de loss pour un jeu de données et un réseau.  
    - Les objets `mlp` doivent impérativement être passés par adresse.  
    - Cette fonction sera appelée quatre fois dans le `main`.
+   > Reemplacement aux lignes 203, 209, 270 et 276.
 5. Pour un même réseau, comparez le temps moyen d’entraînement pour une époque sur au moins deux machines différentes.  
    - Dans le rapport, présentez un tableau indiquant :  
      - Le(s) compilateur(s) utilisé(s)  
@@ -113,6 +126,7 @@ Il s’agit d’implémenter l’optimisation ADAM.
    #include "MLP_Layer_ADAM.h"
    ```  
    et adaptez les types des variables `mlp` et `mlp_best`.
+   > 13 et 14 changement des headers, 123 et 258 changement de type
 3. Complétez la méthode `UpdateWeight` dans `MLP_Layer_ADAM.cpp` en vous inspirant de celle de `MLP_Layer_SGD.cpp`.  
    - Utilisez `MW` et `MW_next` pour _m<sub>ij</sub>_ et sa mise à jour, `SW` et `SW_next` pour _s<sub>ij</sub>_, et de même pour les biais.  
    - Ces variables sont déjà allouées et initialisées ; `alpha_T`, `Beta_1` et `Beta_2` sont disponibles.  

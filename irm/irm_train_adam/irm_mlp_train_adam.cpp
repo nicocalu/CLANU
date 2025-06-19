@@ -10,8 +10,8 @@
 #include <csignal> // IF4
 #include <random>
 
-#include "MLP_Network_SGD.h"
-#include "MLP_Layer_SGD.h"
+#include "MLP_Network_ADAM.h"
+#include "MLP_Layer_ADAM.h"
 #include "IRM2D.h"
 #include "timing_functions.h"
 #include "progress_bar.h"
@@ -34,7 +34,7 @@ int * maxEpoch_ptr;
 
 void signal_callback_handler(int signum);
 
-std::pair<float, float> ACCURACYandLOSS(MLP_Network_SGD* mlp, int nSet, float** input, char** desiredOutput)
+std::pair<float, float> ACCURACYandLOSS( MLP_Network_ADAM* mlp, int nSet, float** input, char** desiredOutput)
 {
     int sums = 0;
     float loss = 0.F;
@@ -120,7 +120,7 @@ int main(int argc, char *argv[])
     irm.ReadLabel(0, nTestSet, desiredOutputTest);
 
 
-    MLP_Network_SGD mlp('L');
+    MLP_Network_ADAM mlp('L');
     mlp.Allocate(nInputUnit,nHiddenUnit,nOutputUnit,nTrainingSet);
 
     string fullname = SRC_PATH+"/models/"+argv[1];
@@ -255,7 +255,7 @@ int main(int argc, char *argv[])
     log_stream.close();
 
     //saving best model
-    MLP_Network_SGD mlp_best;
+    MLP_Network_ADAM mlp_best;
     std::ifstream is (best_filename, std::ifstream::binary);
     is >> mlp_best;
     is.close();

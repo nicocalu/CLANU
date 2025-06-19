@@ -62,11 +62,37 @@ void MLP_Layer_ADAM::UpdateWeight(FLOAT_TYPE learningRate)
 #if defined(_OPENMP)
     #pragma omp parallel for
 #endif
-// START YOUR ADAM IMPLEMENTATION HERE (question 2.5.3)
+// START YOUR ADAM IMPLEMENTATION HERE
+   const INTERNAL_FLOAT_TYPE Epsilon = 1e-7;
 
+    // Update weights
+    for (int j = 0; j < nCurrentNeurons; j++)
+    {
+        for (int i = 0; i < nPreviousNeurons; i++)
+        {
+            int index = j * nPreviousNeurons + i;
+            // Update first and second moments for weights
+            MW_next[index] = Beta1 * MW[index] + (1.0 - Beta1) * dW[index];
+            SW_next[index] = Beta2 * SW[index] + (1.0 - Beta2) * dW[index] * dW[index];
 
+            // Update weights using ADAM rule
+            W[index] += -alpha_T * MW_next[index] / (sqrt(SW_next[index]) + Epsilon);
+        }
+    }
 
+    // Update biases
+#if defined(_OPENMP)
+    #pragma omp parallel for
+#endif
+    for (int j = 0; j < nCurrentNeurons; j++)
+    {
+        // Update first and second moments for biases
+        Mb_next[j] = Beta1 * Mb[j] + (1.0 - Beta1) * db[j];
+        Sb_next[j] = Beta2 * Sb[j] + (1.0 - Beta2) * db[j] * db[j];
 
+        // Update biases using ADAM rule
+        b[j] += -alpha_T * Mb_next[j] / (sqrt(Sb_next[j]) + Epsilon);
+    }
 // NO MORE MODIFICATIONS AFTER THIS LINE
 
 

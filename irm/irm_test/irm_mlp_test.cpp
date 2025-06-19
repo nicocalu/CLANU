@@ -109,20 +109,19 @@ int main(int argc, char *argv[])
 
 
 //ADD FROM HERE THE CODE THAT PRINT ALL ERRONEOUS PREDICTED IMAGE INDEXES (Question 2.3.2)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    cout << "Indices des images mal classees :" << endl;
+    string error_path = SRC_PATH;
+    for (int i = 0; i < nTestSet; i++)
+    {
+        mlp.ForwardPropagateNetwork(inputTest[i]);
+        if (mlp.CalculateResult(desiredOutputTest[i]) == 0)
+        {
+            cout << i << " ";
+            //string filename = error_path + "/" + irm2d.Dataset[i];
+            //irm2d.SaveImage(filename, inputTest[i], 64, 64);
+        }
+    }
+    cout << endl;
 //STOP HERE THE CODE THAT PRINT ALL ERRONEOUS PREDICTED IMAGE INDEXES (no more changes after this line)
 
 // Ask for an image and print it until -1
