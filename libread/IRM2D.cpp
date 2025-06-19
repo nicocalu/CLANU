@@ -41,8 +41,8 @@
 #endif
     */
 
-#include <experimental/filesystem>
-namespace fs = std::experimental::filesystem;
+#include <filesystem>
+namespace fs = std::filesystem;
 
 
 int IRM2D::ReadPath(std::string pathname)
@@ -79,7 +79,9 @@ int IRM2D::ReadPath(std::string pathname)
     std::cout << " Files found in directory : " << image_count << std::endl;
 // Randomize order
 //     std::srand ( unsigned ( std::time(0) ) );  // ne pas utiliser pour garantir le meme ordre des données!
-    std::random_shuffle ( Dataset.begin(), Dataset.end() );
+    std::random_device rd;
+    std::mt19937 g(rd());
+    std::shuffle(Dataset.begin(), Dataset.end(), g);
 
     return image_count;
 }

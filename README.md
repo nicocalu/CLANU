@@ -32,11 +32,27 @@ Dans cette partie, la performance d’un réseau de neurones pré-entraîné sur
    - Dans QtCreator : **Projets → Run → Command Line Arguments**.
 3. Dans votre rapport, donnez un exemple d’exécution.  
    - La précision de ce réseau sur 1 000 images de test est-elle satisfaisante par rapport à vos expérimentations précédentes en MA 1 ?  
-   - Qu’entend-on par “précision” exactement ? Comment est-elle calculée et en quoi est-elle plus appropriée que la fonction de coût pour évaluer la performance du réseau ?
+   - Qu’entend-on par “précision” exactement ? 
+   > La précision (en anglais, accuracy) est une métrique d'évaluation qui mesure la proportion de prédictions correctes faites par votre réseau de neurones sur un ensemble de données. En termes simples, elle répond à la question : "Sur toutes les images que nous avons testées, quel pourcentage le modèle a-t-il correctement identifié ?"
+   Comment est-elle calculée et en quoi est-elle plus appropriée que la fonction de coût pour évaluer la performance du réseau ?
+   > Le calcul se base sur une comparaison directe entre la sortie prédite par le modèle et la véritable étiquette (la classe attendue).
+   > La fonction de coût (loss function) et la précision ont des rôles différents et complémentaires :
+   > - La fonction de coût (Loss) est principalement utilisée pendant l'entraînement du réseau. L'objectif de l'entraînement est de minimiser cette fonction. 
+   > - La précision (Accuracy) est principalement utilisée pour l'évaluation de la performance finale du modèle. 
 4. Modifiez le code pour que la précision soit calculée sur la totalité des images de test.  
+   > Ca suffit ce commenter la lighe 64 du irm_mlp_test.cpp qui limite le nombre d'images
    - La précision a-t-elle évolué ? Qu’en concluez-vous sur le réseau et sur les images ?
+   > La precision a diminue un peu, de 98.9 % a 98.8146 %. On peut donc conclure que le reseau etait en leger surapprentissage, et que le jeu de test complet est plus variee. 
 5. Passez le projet en mode **Debug** pour pouvoir poser des breakpoints.  
    - À l’aide du débogage, déterminez l’architecture du réseau pré-entraîné `models/best/irm2d_adam_20000.bin` (nombre de couches et nombre de neurones par couche) ainsi que les fonctions d’activation utilisées.
+   > Modifie un peu le code por en sortir:
+   ```
+   Model parameters :
+   Input Neurons:  4096
+   Output Neurons: 9
+   N. of Layers:   4
+   Hidden Layer size: [32, 32, 24, 16]
+   ```
 ### 2.4 Premiers développements : représentation des données et prédictions
 
 On se focalise sur la représentation des données (en C/C++) et la manipulation des fonctions pour effectuer une prédiction (ou inférence).

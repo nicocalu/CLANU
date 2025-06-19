@@ -1,0 +1,6 @@
+/6.10.0
+/build
+.vscode
+*.exe
+*.o
+*.user

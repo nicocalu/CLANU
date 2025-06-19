@@ -13,9 +13,9 @@ using namespace std;
 
 // Question 2.2.1
 // LINUX / MAC
-    const string SRC_PATH = "/home/grenier/Downloads/Clanu/cpp";
+  //  const string SRC_PATH = "/home/grenier/Downloads/Clanu/cpp";
 // WINDOWS
-//    const string SRC_PATH = "D:/Documents/_NextCloud/documents/Insa-GE/Clanu/cpp";
+    const string SRC_PATH = "C:/Users/nicoc/Downloads/cpp";
 
 
 int main(int argc, char *argv[])
@@ -47,6 +47,15 @@ int main(int argc, char *argv[])
     is >> mlp;
     is.close();
     tac();
+    cout << "Model parameters :" << endl;
+    cout << "   Input Neurons:  " << mlp.GetnInputUnit() << endl;
+    cout << "   Hidden Neurons: [";
+    for (const auto& h : mlp.GetnHiddenUnit()) {
+        cout << h << ", ";
+    }
+    cout << "]" << endl;
+    cout << "   Output Neurons: " << mlp.GetnOutputUnit() << endl;
+    cout << "   N. of Layers:   " << mlp.GetnHiddenLayer() << endl;
     cout << " Model loaded in : "<< duration() << " s" << endl;
 
 
@@ -61,7 +70,7 @@ int main(int argc, char *argv[])
     cout << " Reading directory : " << SRC_PATH+"/data/IRM2D" << "  ";
 
     int nTestSet = irm2d.ReadPath(SRC_PATH+"/data/IRM2D/test");
-    nTestSet = 1000;
+    //nTestSet = 1000;
     cout <<  nTestSet << endl;
 
     //Allocate
